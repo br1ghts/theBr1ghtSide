@@ -1,11 +1,12 @@
 {{-- resources/views/forum/index.blade.php --}}
 <x-app-layout>
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="py-3">
+        <div class="max-w-[95%] mx-auto">
             <div class="bg-white dark:bg-gray-800 shadow rounded-lg overflow-hidden">
                 <div class="px-6 py-4">
                     <div class="flex justify-between items-center mb-6">
                         <h1 class="text-3xl font-bold text-gray-900 dark:text-gray-100">Forum Threads</h1>
+  
                         <a href="{{ route('threads.create') }}" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded shadow transition">
                             Create Thread
                         </a>
