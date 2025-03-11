@@ -1,7 +1,7 @@
             <!-- Sidebar -->
             <aside class="w-64 bg-white dark:bg-gray-800 p-6 hidden md:block">
                 <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-4 text-center">TheBrightSide</h2>
-                <nav class="space-y-2">>
+                <nav class="space-y-2">
                     @if (Route::has('login'))
                         @auth
                         <a href="{{ url('/dashboard') }}" 

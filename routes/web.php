@@ -6,7 +6,7 @@ use App\Http\Controllers\ThreadController;
 use App\Http\Controllers\ReplyController;
 use App\Http\Controllers\DailyMessageController;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\CategoryController;
 Route::get('/', function () {
     return view('welcome');
 });
@@ -28,6 +28,8 @@ Route::middleware('auth')->group(function () {
     
     // FORUM ROUTES
     Route::resource('threads', ThreadController::class);
+    Route::resource('categories', CategoryController::class);
+Route::get('/threads/category/{category:slug}', [CategoryController::class, 'show'])->name('threads.category');
     Route::post('threads/{thread}/replies', [ReplyController::class, 'store'])->name('threads.replies.store');
 
 });

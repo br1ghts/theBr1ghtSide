@@ -4,25 +4,39 @@ namespace App\Http\Controllers;
 
 use App\Models\Thread;
 use Illuminate\Http\Request;
-
+use App\Models\Category;
 class ThreadController extends Controller
 {
     /**
      * Display a listing of the threads.
      */
-    public function index()
+    public function index(Request $request)
     {
-        // Retrieve all threads, newest first, eager-loading the user relationship.
-        $threads = Thread::latest()->with('user')->get();
-        return view('forum.index', compact('threads'));
+        $categories = Category::all();
+    
+        $query = Thread::latest()->with('user', 'category');
+    
+        if ($request->has('category')) {
+            $query->whereHas('category', function ($q) use ($request) {
+                $q->where('slug', $request->category);
+            });
+        }
+    
+        return view('forum.index', [
+            'threads' => $query->get(),
+            'categories' => $categories, // ✅ Make sure this is passed
+        ]);
     }
+    
 
     /**
      * Show the form for creating a new thread.
      */
     public function create()
     {
-        return view('forum.create');
+        return view('forum.create', [
+            'categories' => Category::all(), // Fetch all categories
+        ]);
     }
 
     /**
@@ -33,6 +47,7 @@ class ThreadController extends Controller
         // Validate the input.
         $request->validate([
             'title' => 'required|string|max:255',
+            'category_id' => 'required|int|max:255',
             'body'  => 'required|string',
         ]);
 
@@ -40,6 +55,7 @@ class ThreadController extends Controller
         $thread = new Thread();
         $thread->title = $request->title;
         $thread->body  = $request->body;
+        $thread->category_id  = $request->category_id;
         $thread->user_id = auth()->id();
         $thread->save();
 
